@@ -13,12 +13,17 @@
             color: black;
         }
         .container {
-            background: rgba(255, 255, 255, 0.8);
+            background: rgba(255, 255, 255, 0.9);
             padding: 20px;
             border-radius: 10px;
-            width: 80%;
-            max-width: 600px;
+            width: 90%;
+            max-width: 800px;
             margin: 50px auto;
+        }
+        iframe {
+            width: 100%;
+            height: 800px;
+            border: none;
         }
         .button {
             display: inline-block;
@@ -29,6 +34,7 @@
             border-radius: 10px;
             text-decoration: none;
             font-weight: bold;
+            margin-top: 20px;
         }
         .button:hover {
             background: #002a80;
@@ -39,9 +45,16 @@
     <div class="container">
         <h1>Willkommen bei BayrCoin</h1>
         <p>Die erste bayerische Regional-Kryptowährung</p>
+        
+        <!-- Eingebettetes Google Forms Anmeldeformular -->
+        <iframe src="https://docs.google.com/forms/d/e/1FAIpQLScKyu3kDiNdEdUkXCoX3dYXilbh3bDNs5UF8iBaGA66qgdH7Q/viewform?embedded=true"></iframe>
+
+        <!-- Falls das Einbetten blockiert wird, als Fallback ein Button -->
+        <p>Falls das Formular nicht sichtbar ist, klicke hier:</p>
         <a href="https://docs.google.com/forms/d/e/1FAIpQLScKyu3kDiNdEdUkXCoX3dYXilbh3bDNs5UF8iBaGA66qgdH7Q/viewform" class="button" target="_blank">
-            Hier anmelden
+            Formular öffnen
         </a>
     </div>
 </body>
 </html>
+
