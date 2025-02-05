@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BayrCoin - Bayerns Kryptowährung</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f4;
+            padding: 50px;
+        }
+        h1 {
+            color: #0056b3;
+        }
+        p {
+            font-size: 18px;
+            color: #333;
+        }
+        .button {
+            display: inline-block;
+            padding: 15px 30px;
+            font-size: 18px;
+            color: white;
+            background-color: #007bff;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+        .button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>Willkommen bei BayrCoin</h1>
+    <p>Die erste bayerische Regional-Kryptowährung. Starte jetzt und sichere dir 10.000 BayrCoin!</p>
+    <a href="https://sites.google.com/d/1iZUdRTMMGaQRPb3rBcxBVwrueulKuFz5/p/19WglVEPPdg4B31LIa1mgPw8SiqDu3wJd/edit" class="button">Jetzt registrieren</a>
+</body>
+</html>
