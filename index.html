@@ -46,6 +46,14 @@
         button:hover {
             background: #005a8c;
         }
+        iframe {
+            width: 100%;
+            height: 600px;
+            border: none;
+            margin-top: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
         footer {
             margin-top: 20px;
             font-size: 14px;
@@ -62,24 +70,26 @@
             <h3>BayrCoin Anmeldung</h3>
             <p>Melde dich hier an, um dein BayrCoin-Konto mit 10.000 BayrCoin zu erhalten.</p>
             <form action="https://docs.google.com/forms/d/e/1FAIpQLScKyu3kDiNdEdUkXCoX3dYXilbh3bDNs5UF8iBaGA66qgdH7Q/formResponse" method="POST">
-    <label for="vorname">Vorname:</label>
-    <input type="text" id="vorname" name="entry.1957957857" required>
+                <label for="vorname">Vorname:</label>
+                <input type="text" id="vorname" name="entry.1957957857" required>
 
-    <label for="nachname">Nachname:</label>
-    <input type="text" id="nachname" name="entry.2101242074" required>
+                <label for="nachname">Nachname:</label>
+                <input type="text" id="nachname" name="entry.2101242074" required>
 
-    <label for="plz">Postleitzahl:</label>
-    <input type="text" id="plz" name="entry.1564740664" required>
+                <label for="plz">Postleitzahl:</label>
+                <input type="text" id="plz" name="entry.1564740664" required>
 
-    <label for="email">E-Mail-Adresse:</label>
-    <input type="email" id="email" name="entry.85691577" required>
+                <label for="email">E-Mail-Adresse:</label>
+                <input type="email" id="email" name="entry.85691577" required>
 
-    <button type="submit">Senden</button>
-     <a href="https://script.google.com/macros/s/DEINE_DEPLOYMENT_URL/exec" target="_blank">
-    BayrCoin Wallet öffnen
-</a>
-           
-</form>
+                <button type="submit">Senden</button>
+            </form>
+
+            <h3>BayrCoin Wallet</h3>
+            <p>Hier kannst du dein Guthaben einsehen und Transaktionen durchführen:</p>
+            
+            <!-- 🟢 Google Apps Script Web-App eingebettet -->
+            <iframe src="https://script.google.com/macros/s/AKfycbwjn9COsCC-UhIdP19LVnInk5qmQiOQSvTOXfN12A_p04eQ2JF0j4aF64vroiQ5o7gEYA/exec"></iframe>
 
         </div>
     </div>
@@ -89,3 +99,4 @@
     </footer>
 </body>
 </html>
+
