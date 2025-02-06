@@ -1,55 +1,85 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="de">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BayrCoin Wallet</title>
+    <title>Willkommen bei BayrCoin</title>
     <style>
         body {
             font-family: Arial, sans-serif;
+            background: linear-gradient(to bottom, #ffffff, #007bff);
             text-align: center;
-            margin: 40px;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            margin: 50px auto;
+            padding: 20px;
+            width: 40%;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #007bff;
+        }
+        input {
+            width: 90%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #0056b3;
         }
     </style>
 </head>
 <body>
-    <h2>BayrCoin Wallet</h2>
-    <p>Hier kannst du dein Guthaben einsehen und Coins senden:</p>
+    <div class="container">
+        <h1>Willkommen bei BayrCoin</h1>
+        <p>Die erste bayerische Regional-Kryptowährung</p>
+        <h3>BayrCoin Anmeldung</h3>
+        <p>Melde dich hier an, um dein BayrCoin-Konto mit 10.000 BayrCoin zu erhalten.</p>
+        <input type="text" placeholder="Dein Name" id="name">
+        <input type="email" placeholder="Deine E-Mail-Adresse" id="email">
+        <button onclick="registerUser()">Senden</button>
+        <div id="registerStatus"></div>
+        
+        <h3>Guthaben prüfen</h3>
+        <input type="email" id="checkEmail" placeholder="E-Mail eingeben">
+        <button onclick="getBalance()">Guthaben prüfen</button>
+        <div id="guthaben">Warte auf Eingabe...</div>
 
-    <!-- ANMELDEFORMULAR -->
-    <h3>Registrierung / Login</h3>
-    <input type="email" id="registerEmail" placeholder="E-Mail eingeben">
-    <input type="password" id="registerPassword" placeholder="Passwort">
-    <button onclick="registerUser()">Anmelden</button>
-    <div id="registerStatus"></div>
-
-    <!-- GUTHABEN PRÜFEN -->
-    <h3>Guthaben prüfen</h3>
-    <input type="email" id="email" placeholder="E-Mail eingeben">
-    <button onclick="getBalance()">Guthaben prüfen</button>
-    <div id="guthaben">Warte auf Eingabe...</div>
-
-    <!-- BAYRCOIN SENDEN -->
-    <h3>BayrCoin senden</h3>
-    <input type="email" id="sender" placeholder="Deine E-Mail">
-    <input type="email" id="receiver" placeholder="Empfänger E-Mail">
-    <input type="number" id="amount" placeholder="Menge">
-    <button onclick="sendCoins()">Senden</button>
-    <div id="transaktionsStatus"></div>
+        <h3>BayrCoin senden</h3>
+        <input type="email" id="sender" placeholder="Deine E-Mail">
+        <input type="email" id="receiver" placeholder="Empfänger E-Mail">
+        <input type="number" id="amount" placeholder="Menge">
+        <button onclick="sendCoins()">Senden</button>
+        <div id="transaktionsStatus"></div>
+    </div>
 
     <script>
         const API_URL = "https://script.google.com/macros/s/AKfycbwk0Y4IZTpm9kysvP6IU3KLBdUVeKxoA4H8zlBi8sKWXAbMign4MzZDW-bnWNJbcCW4kg/exec";
 
         function registerUser() {
-            let email = document.getElementById("registerEmail").value;
-            let password = document.getElementById("registerPassword").value;
+            let name = document.getElementById("name").value;
+            let email = document.getElementById("email").value;
 
-            if (!email || !password) {
+            if (!name || !email) {
                 alert("Bitte alle Felder ausfüllen!");
                 return;
             }
 
-            fetch(API_URL + "?action=register&email=" + encodeURIComponent(email) + "&password=" + encodeURIComponent(password))
+            fetch(API_URL + "?action=register&name=" + encodeURIComponent(name) + "&email=" + encodeURIComponent(email))
                 .then(response => response.text())
                 .then(data => {
                     document.getElementById("registerStatus").innerText = data;
@@ -61,7 +91,7 @@
         }
 
         function getBalance() {
-            let email = document.getElementById("email").value;
+            let email = document.getElementById("checkEmail").value;
             if (!email) {
                 alert("Bitte E-Mail eingeben!");
                 return;
