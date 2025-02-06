@@ -3,108 +3,72 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Willkommen bei BayrCoin</title>
+    <title>BayrCoin Wallet</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            background: linear-gradient(to bottom, #ffffff, #0072b5);
-            color: #000;
             text-align: center;
-            margin: 0;
-            padding: 0;
-        }
-        .container {
-            max-width: 600px;
-            margin: 50px auto;
-            background: white;
-            padding: 20px;
-            border-radius: 12px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        }
-        h1 {
-            color: #0072b5;
-        }
-        .form-container {
-            text-align: left;
-        }
-        input[type="text"], input[type="email"] {
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-        }
-        button {
-            background: #0072b5;
-            color: white;
-            padding: 10px 15px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-        button:hover {
-            background: #005a8c;
-        }
-        iframe {
-            width: 100%;
-            height: 600px;
-            border: none;
-            margin-top: 20px;
-            border-radius: 12px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        }
-        footer {
-            margin-top: 20px;
-            font-size: 14px;
-            color: #fff;
+            margin: 40px;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Willkommen bei BayrCoin</h1>
-        <p>Die erste bayerische regionale Digitalwährung</p>
-        
-        <div class="form-container">
-            <h3>BayrCoin Anmeldung</h3>
-            <p>Melde dich hier an, um dein BayrCoin-Konto mit 10.000 BayrCoin zu erhalten.</p>
-            <form action="https://docs.google.com/forms/d/e/1FAIpQLScKyu3kDiNdEdUkXCoX3dYXilbh3bDNs5UF8iBaGA66qgdH7Q/formResponse" method="POST">
-                <label for="vorname">Vorname:</label>
-                <input type="text" id="vorname" name="entry.1957957857" required>
+    <h2>BayrCoin Wallet</h2>
+    <p>Hier kannst du dein Guthaben einsehen und Coins senden:</p>
 
-                <label for="nachname">Nachname:</label>
-                <input type="text" id="nachname" name="entry.2101242074" required>
+    <h3>Guthaben prüfen</h3>
+    <input type="email" id="email" placeholder="E-Mail eingeben">
+    <button onclick="getBalance()">Guthaben prüfen</button>
+    <div id="guthaben">Warte auf Eingabe...</div>
 
-                <label for="plz">Postleitzahl:</label>
-                <input type="text" id="plz" name="entry.1564740664" required>
+    <h3>BayrCoin senden</h3>
+    <input type="email" id="sender" placeholder="Deine E-Mail">
+    <input type="email" id="receiver" placeholder="Empfänger E-Mail">
+    <input type="number" id="amount" placeholder="Menge">
+    <button onclick="sendCoins()">Senden</button>
+    <div id="transaktionsStatus"></div>
 
-                <label for="email">E-Mail-Adresse:</label>
-                <input type="email" id="email" name="entry.85691577" required>
+    <script>
+        const API_URL = "https://script.google.com/macros/s/DEINE_DEPLOYMENT_URL/exec";
 
-                <button type="submit">Senden</button>
-            </form>
+        function getBalance() {
+            let email = document.getElementById("email").value;
+            if (!email) {
+                alert("Bitte E-Mail eingeben!");
+                return;
+            }
 
-            <h3>BayrCoin Wallet</h3>
-            <p>Hier kannst du dein Guthaben einsehen und Transaktionen durchführen:</p>
-            
-            <!-- 🟢 Google Apps Script Web-App eingebettet -->
-            <script>
-fetch("DEINE_GOOGLE_APPS_SCRIPT_URL")
-  .then(response => response.text())
-  .then(html => {
-    document.getElementById("wallet-container").innerHTML = html;
-  })
-  .catch(error => console.error("Fehler:", error));
-</script>
+            fetch(`${API_URL}?action=getBalance&email=${encodeURIComponent(email)}`)
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById("guthaben").innerText = "Dein Guthaben: " + data + " BayrCoin";
+                })
+                .catch(error => {
+                    document.getElementById("guthaben").innerText = "Fehler beim Laden der Daten.";
+                    console.error(error);
+                });
+        }
 
-<div id="wallet-container"></div>
-        </div>
-    </div>
-    
-    <footer>
-        &copy; 2025 BayrCoin - Die bayerische regionale Digitalwährung
-    </footer>
+        function sendCoins() {
+            let sender = document.getElementById("sender").value;
+            let receiver = document.getElementById("receiver").value;
+            let amount = document.getElementById("amount").value;
+
+            if (!sender || !receiver || !amount) {
+                alert("Bitte alle Felder ausfüllen!");
+                return;
+            }
+
+            fetch(`${API_URL}?action=transfer&email=${encodeURIComponent(sender)}&receiver=${encodeURIComponent(receiver)}&amount=${encodeURIComponent(amount)}`)
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById("transaktionsStatus").innerText = data;
+                })
+                .catch(error => {
+                    document.getElementById("transaktionsStatus").innerText = "Fehler bei der Transaktion.";
+                    console.error(error);
+                });
+        }
+    </script>
 </body>
 </html>
-
