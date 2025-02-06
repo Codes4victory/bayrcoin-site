@@ -68,56 +68,34 @@
         <button onclick="sendCoins()">Senden</button>
         <div id="transaktionsStatus"></div>
     </div>
-    <script>
-        function registerUser() {
-            const firstname = document.getElementById('firstname').value;
-            const lastname = document.getElementById('lastname').value;
-            const zipcode = document.getElementById('zipcode').value;
-            const email = document.getElementById('email').value;
-            
-            if (firstname && lastname && zipcode && email) {
-                fetch('https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ firstname, lastname, zipcode, email })
-                })
-                .then(response => response.json())
-                .then(data => {
-                    document.getElementById('registerStatus').innerText = data.message;
-                })
-                .catch(error => {
-                    document.getElementById('registerStatus').innerText = "Fehler bei der Anmeldung.";
-                });
-            } else {
-                alert("Bitte alle Felder ausfüllen!");
-            }
-        }
-    </script>
-</body>
-</html>
-
-
+    
     <script>
         const API_URL = "https://script.google.com/macros/s/AKfycbwk0Y4IZTpm9kysvP6IU3KLBdUVeKxoA4H8zlBi8sKWXAbMign4MzZDW-bnWNJbcCW4kg/exec";
 
         function registerUser() {
-            let name = document.getElementById("name").value;
+            let firstname = document.getElementById("firstname").value;
+            let lastname = document.getElementById("lastname").value;
+            let zipcode = document.getElementById("zipcode").value;
             let email = document.getElementById("email").value;
 
-            if (!name || !email) {
+            if (!firstname || !lastname || !zipcode || !email) {
                 alert("Bitte alle Felder ausfüllen!");
                 return;
             }
 
-            fetch(API_URL + "?action=register&name=" + encodeURIComponent(name) + "&email=" + encodeURIComponent(email))
-                .then(response => response.text())
-                .then(data => {
-                    document.getElementById("registerStatus").innerText = data;
-                })
-                .catch(error => {
-                    document.getElementById("registerStatus").innerText = "Fehler bei der Anmeldung.";
-                    console.error(error);
-                });
+            fetch(API_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ action: "register", firstname, lastname, zipcode, email })
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("registerStatus").innerText = data.message;
+            })
+            .catch(error => {
+                document.getElementById("registerStatus").innerText = "Fehler bei der Anmeldung.";
+                console.error(error);
+            });
         }
 
         function getBalance() {
@@ -161,3 +139,4 @@
     </script>
 </body>
 </html>
+
