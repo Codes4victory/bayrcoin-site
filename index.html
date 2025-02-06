@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="de">
 <head>
     <meta charset="UTF-8">
@@ -16,11 +16,20 @@
     <h2>BayrCoin Wallet</h2>
     <p>Hier kannst du dein Guthaben einsehen und Coins senden:</p>
 
+    <!-- ANMELDEFORMULAR -->
+    <h3>Registrierung / Login</h3>
+    <input type="email" id="registerEmail" placeholder="E-Mail eingeben">
+    <input type="password" id="registerPassword" placeholder="Passwort">
+    <button onclick="registerUser()">Anmelden</button>
+    <div id="registerStatus"></div>
+
+    <!-- GUTHABEN PRÜFEN -->
     <h3>Guthaben prüfen</h3>
     <input type="email" id="email" placeholder="E-Mail eingeben">
     <button onclick="getBalance()">Guthaben prüfen</button>
     <div id="guthaben">Warte auf Eingabe...</div>
 
+    <!-- BAYRCOIN SENDEN -->
     <h3>BayrCoin senden</h3>
     <input type="email" id="sender" placeholder="Deine E-Mail">
     <input type="email" id="receiver" placeholder="Empfänger E-Mail">
@@ -31,6 +40,26 @@
     <script>
         const API_URL = "https://script.google.com/macros/s/AKfycbwk0Y4IZTpm9kysvP6IU3KLBdUVeKxoA4H8zlBi8sKWXAbMign4MzZDW-bnWNJbcCW4kg/exec";
 
+        function registerUser() {
+            let email = document.getElementById("registerEmail").value;
+            let password = document.getElementById("registerPassword").value;
+
+            if (!email || !password) {
+                alert("Bitte alle Felder ausfüllen!");
+                return;
+            }
+
+            fetch(API_URL + "?action=register&email=" + encodeURIComponent(email) + "&password=" + encodeURIComponent(password))
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById("registerStatus").innerText = data;
+                })
+                .catch(error => {
+                    document.getElementById("registerStatus").innerText = "Fehler bei der Anmeldung.";
+                    console.error(error);
+                });
+        }
+
         function getBalance() {
             let email = document.getElementById("email").value;
             if (!email) {
@@ -38,7 +67,7 @@
                 return;
             }
 
-            fetch(`${API_URL}?action=getBalance&email=${encodeURIComponent(email)}`)
+            fetch(API_URL + "?action=getBalance&email=" + encodeURIComponent(email))
                 .then(response => response.text())
                 .then(data => {
                     document.getElementById("guthaben").innerText = "Dein Guthaben: " + data + " BayrCoin";
@@ -59,7 +88,7 @@
                 return;
             }
 
-            fetch(`${API_URL}?action=transfer&email=${encodeURIComponent(sender)}&receiver=${encodeURIComponent(receiver)}&amount=${encodeURIComponent(amount)}`)
+            fetch(API_URL + "?action=transfer&email=" + encodeURIComponent(sender) + "&receiver=" + encodeURIComponent(receiver) + "&amount=" + encodeURIComponent(amount))
                 .then(response => response.text())
                 .then(data => {
                     document.getElementById("transaktionsStatus").innerText = data;
