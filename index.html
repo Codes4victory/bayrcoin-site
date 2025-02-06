@@ -47,7 +47,6 @@
     <div class="container">
         <h1>Willkommen bei BayrCoin</h1>
         <p>Die erste bayerische Regional-Kryptowährung</p>
-
         <h3>BayrCoin Anmeldung</h3>
         <p>Melde dich hier an, um dein BayrCoin-Konto mit 10.000 BayrCoin zu erhalten.</p>
         <input type="text" placeholder="Vorname" id="firstname">
@@ -56,7 +55,7 @@
         <input type="email" placeholder="Deine E-Mail-Adresse" id="email">
         <button onclick="registerUser()">Senden</button>
         <div id="registerStatus"></div>
-
+        
         <h3>Guthaben prüfen</h3>
         <input type="email" id="checkEmail" placeholder="E-Mail eingeben">
         <button onclick="getBalance()">Guthaben prüfen</button>
@@ -69,50 +68,71 @@
         <button onclick="sendCoins()">Senden</button>
         <div id="transaktionsStatus"></div>
     </div>
-
+    
     <script>
-        const API_URL = "https://script.google.com/macros/s/AKfycbwk0Y4IZTpm9kysvP6IU3KLBdUVeKxoA4H8zlBi8sKWXAbMign4MzZDW-bnWNJbcCW4kg/exec";
+        const API_URL = "https://script.google.com/macros/s/AKfycbzt25NqzXDRJVOETm_p_Lbqn25uiUQ2HSNsIG4qIr1pwPBLctOTPpkEn4Bg-Jrq563I/exec";
 
-        async function registerUser() {
-            let firstname = document.getElementById("firstname").value;
-            let lastname = document.getElementById("lastname").value;
-            let zipcode = document.getElementById("zipcode").value;
-            let email = document.getElementById("email").value;
+        function registerUser() {
+    let firstname = document.getElementById("firstname").value;
+    let lastname = document.getElementById("lastname").value;
+    let zipcode = document.getElementById("zipcode").value;
+    let email = document.getElementById("email").value;
 
-            if (!firstname || !lastname || !zipcode || !email) {
-                alert("Bitte alle Felder ausfüllen!");
-                return;
-            }
+    if (!firstname || !lastname || !zipcode || !email) {
+        alert("Bitte alle Felder ausfüllen!");
+        return;
+    }
 
-            try {
-                let response = await fetch(API_URL + "?action=register&firstname=" + encodeURIComponent(firstname) + "&lastname=" + encodeURIComponent(lastname) + "&zipcode=" + encodeURIComponent(zipcode) + "&email=" + encodeURIComponent(email));
+    fetch(API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: "register", firstname, lastname, zipcode, email })
+    })
+    .then(response => response.json())
+    .then(data => {
+        document.getElementById("registerStatus").innerText = data.message;
+    })
+    .catch(error => {
+        document.getElementById("registerStatus").innerText = "Fehler bei der Anmeldung.";
+        console.error(error);
+    });
+}
 
-                let data = await response.text();
-                document.getElementById("registerStatus").innerText = data;
-            } catch (error) {
+
+            fetch(API_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ action: "register", firstname, lastname, zipcode, email })
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("registerStatus").innerText = data.message;
+            })
+            .catch(error => {
                 document.getElementById("registerStatus").innerText = "Fehler bei der Anmeldung.";
-                console.error("Fehler:", error);
-            }
+                console.error(error);
+            });
         }
 
-        async function getBalance() {
+        function getBalance() {
             let email = document.getElementById("checkEmail").value;
             if (!email) {
                 alert("Bitte E-Mail eingeben!");
                 return;
             }
 
-            try {
-                let response = await fetch(API_URL + "?action=getBalance&email=" + encodeURIComponent(email));
-                let data = await response.text();
-                document.getElementById("guthaben").innerText = "Dein Guthaben: " + data + " BayrCoin";
-            } catch (error) {
-                document.getElementById("guthaben").innerText = "Fehler beim Laden der Daten.";
-                console.error("Fehler:", error);
-            }
+            fetch(API_URL + "?action=getBalance&email=" + encodeURIComponent(email))
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById("guthaben").innerText = "Dein Guthaben: " + data + " BayrCoin";
+                })
+                .catch(error => {
+                    document.getElementById("guthaben").innerText = "Fehler beim Laden der Daten.";
+                    console.error(error);
+                });
         }
 
-        async function sendCoins() {
+        function sendCoins() {
             let sender = document.getElementById("sender").value;
             let receiver = document.getElementById("receiver").value;
             let amount = document.getElementById("amount").value;
@@ -122,16 +142,16 @@
                 return;
             }
 
-            try {
-                let response = await fetch(API_URL + "?action=transfer&email=" + encodeURIComponent(sender) + "&receiver=" + encodeURIComponent(receiver) + "&amount=" + encodeURIComponent(amount));
-                let data = await response.text();
-                document.getElementById("transaktionsStatus").innerText = data;
-            } catch (error) {
-                document.getElementById("transaktionsStatus").innerText = "Fehler bei der Transaktion.";
-                console.error("Fehler:", error);
-            }
+            fetch(API_URL + "?action=transfer&email=" + encodeURIComponent(sender) + "&receiver=" + encodeURIComponent(receiver) + "&amount=" + encodeURIComponent(amount))
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById("transaktionsStatus").innerText = data;
+                })
+                .catch(error => {
+                    document.getElementById("transaktionsStatus").innerText = "Fehler bei der Transaktion.";
+                    console.error(error);
+                });
         }
     </script>
 </body>
 </html>
-
