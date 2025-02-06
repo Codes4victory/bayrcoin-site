@@ -89,8 +89,16 @@
             <p>Hier kannst du dein Guthaben einsehen und Transaktionen durchführen:</p>
             
             <!-- 🟢 Google Apps Script Web-App eingebettet -->
-            <iframe src="https://script.google.com/macros/s/AKfycbwZw_n8GUIQVVybUjeE_izitVm29giSQvqCclQmlZalX2QdGJlwBWRoCnVQ-vGjgtrHnw/exec"></iframe>
+            <script>
+fetch("DEINE_GOOGLE_APPS_SCRIPT_URL")
+  .then(response => response.text())
+  .then(html => {
+    document.getElementById("wallet-container").innerHTML = html;
+  })
+  .catch(error => console.error("Fehler:", error));
+</script>
 
+<div id="wallet-container"></div>
         </div>
     </div>
     
