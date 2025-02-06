@@ -73,10 +73,21 @@
             const firstname = document.getElementById('firstname').value;
             const lastname = document.getElementById('lastname').value;
             const zipcode = document.getElementById('zipcode').value;
-            const name = document.getElementById('name').value;
             const email = document.getElementById('email').value;
-            if (firstname && lastname && zipcode && name && email) {
-                alert(`Anmeldung erfolgreich für: ${firstname} ${lastname}, ${zipcode}, ${name} (${email})`);
+            
+            if (firstname && lastname && zipcode && email) {
+                fetch('https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ firstname, lastname, zipcode, email })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('registerStatus').innerText = data.message;
+                })
+                .catch(error => {
+                    document.getElementById('registerStatus').innerText = "Fehler bei der Anmeldung.";
+                });
             } else {
                 alert("Bitte alle Felder ausfüllen!");
             }
@@ -84,6 +95,7 @@
     </script>
 </body>
 </html>
+
 
     <script>
         const API_URL = "https://script.google.com/macros/s/AKfycbwk0Y4IZTpm9kysvP6IU3KLBdUVeKxoA4H8zlBi8sKWXAbMign4MzZDW-bnWNJbcCW4kg/exec";
